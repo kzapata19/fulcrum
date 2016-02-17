@@ -214,7 +214,9 @@
   _.contains = function(collection, target) {
     // TIP: Many iteration problems can be most easily expressed in
     // terms of reduce(). Here's a freebie to demonstrate!
-    return _.reduce(collection, function(wasFound, item) {
+    return _.reduce(collection, function(wasFound, item) { 
+      /* Note to self: wasFound value is a boolean initially set to false then its value 
+      value is determined by the value returned of "item === target" */
       if (wasFound) {
         return true;
       }
@@ -226,6 +228,20 @@
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
+    return _.reduce(collection, function(accumulator, item) {
+      // if (!accumulator) {
+      //   return false;
+      // } else {
+      //   return accumulator === iterator;
+      if (arguments.length === 1) { // or iterator == undefined
+        return function(item) {
+          return accumulator && !!item;
+        }
+      } else {
+        return accumulator && !!iterator(item);
+      }
+    }
+    , true);
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
