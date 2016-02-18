@@ -229,19 +229,12 @@
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
     return _.reduce(collection, function(accumulator, item) {
-      // if (!accumulator) {
-      //   return false;
-      // } else {
-      //   return accumulator === iterator;
-      if (arguments.length === 1) { // or iterator == undefined
-        return function(item) {
-          return accumulator && !!item;
-        }
+      if (iterator == undefined) { 
+        return iterator = iterator || _.identity
       } else {
         return accumulator && !!iterator(item);
       }
-    }
-    , true);
+    }, true);
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
