@@ -267,8 +267,42 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+    var newObj = {};
+    if (arguments.length < 2 || obj == null) {
+      newObj = obj;
+    } else {
+      _.each(arguments, function(object, key, allArguments) {
+        _.each(object, function(item, index, object) {
+          newObj[index] = item; 
+        });
+      });
+    }
+      // _.reduce(item, function(accumulator, currentItem) {
+      //     newObj[item[index]] = accumulator
+      //   });  
+      
+      // _.each(obj, function (item, index, obj) {
+      //     newObj[index] = item;
+      // });
+      // _.each(otherObj, function (item, index, otherObj) {
+      //     newObj[index] = item;
+      // });
+      // });
+      return newObj;
   };
 
+
+ // _.reduce = function(collection, iterator, accumulator) { 
+ //    var x = arguments.length === 2
+ //    _.each(collection, function(item) {
+ //      if (x) {
+ //        accumulator = item;
+ //        x = false;  
+ //      } else {
+ //        accumulator = iterator(accumulator, item);
+ //      }
+      
+ //    });
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
