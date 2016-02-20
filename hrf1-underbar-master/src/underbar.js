@@ -283,13 +283,12 @@
     _.each(arguments, function(accumObj) {
       _.each(accumObj, function(value, key) {
         if (obj[key] === undefined) {
-          obj[key] = value; 
+          obj[key] = value;
         }
       });
     });
     
     return obj
-  };
   };
 
 
