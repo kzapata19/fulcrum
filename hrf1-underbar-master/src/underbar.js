@@ -332,15 +332,14 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
-    var alreadyCalled = false;
     var result = {};
 
     return function(arg) {
+      
         if (result[arg] === undefined) {
-          result = func.apply(this, arguments);
-          alreadyCalled = true;
+          result[arg] = func.apply(this, arguments);
         }
-      return result;
+      return result[arg];
     }
   };
 
