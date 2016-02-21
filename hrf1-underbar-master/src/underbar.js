@@ -336,10 +336,12 @@
     //var result;
 
     return function() {
-      if (!(alreadyCalled && arguments.hasOwnProperty(arguments))) {
-        var result = func.apply(this, arguments);
-        alreadyCalled = true;
-      }
+      _.each(arguments, function(item) {
+        if (!(alreadyCalled && arguments.hasOwnProperty(item))) {
+          var result = func.apply(this, arguments);
+          alreadyCalled = true;
+        }
+      });
       return result;
     }
     //return result;
