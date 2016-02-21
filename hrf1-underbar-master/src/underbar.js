@@ -337,7 +337,8 @@
     return function(arg) {
       
         if (result[arg] === undefined) {
-          result[arg] = func.apply(this, arguments);
+          result[arg] = func.apply(this, arguments); 
+          // use apply since arguments holds all args in an array
         }
       return result[arg];
     }
