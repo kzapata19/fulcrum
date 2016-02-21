@@ -336,7 +336,7 @@
     //var result;
 
     return function() {
-      if (!alreadyCalled) {
+      if (!(alreadyCalled && arguments.hasOwnProperty(arguments))) {
         var result = func.apply(this, arguments);
         alreadyCalled = true;
       }
