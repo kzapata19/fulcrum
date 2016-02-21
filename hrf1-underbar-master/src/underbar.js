@@ -333,20 +333,16 @@
   // instead if possible.
   _.memoize = function(func) {
     var alreadyCalled = false;
-    //var result;
+    var result = {};
 
-    return function() {
-      _.each(arguments, function(item) {
-        if (!(alreadyCalled && arguments.hasOwnProperty(item))) {
-          var result = func.apply(this, arguments);
+    return function(arg) {
+        if (result[arg] === undefined) {
+          result = func.apply(this, arguments);
           alreadyCalled = true;
         }
-      });
       return result;
     }
-    //return result;
-
-    };
+  };
 
   // Delays a function for the given number of milliseconds, and then calls
   // it with the arguments supplied.
