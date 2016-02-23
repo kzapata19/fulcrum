@@ -372,19 +372,19 @@
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
-    var toArray = Array.isArray(array) ? array : do something to convert to array;
-    var length = toArray.length;
-    var randomized = new Array(length); //create an array the length of the array passed
+   
+    var length = array.length;
+    var randomized = new Array(length); //creates an array the length of the array passed
     for(var i = 0, randomNum; i < length; i++) {
-      randomNum = random number from min (index 0) to max (array.length);
+      randomNum = random number from min (index 0) to max (array.length - 1);
       if (randomNum !== i) {
-        //check that randomNum doesn't equal to current index
-        randomized[randomNum] = randomized[i]; 
-        //set the current item to the random index generated and add to new array created (randomized)
+        //checks that randomNum doesn't equal to current index
+        randomized[randomNum] = array[i]; 
+        //adds the current item (array[i]) to new array (randomized) at random index (randomNum)
       }
     }
     return randomized; 
-    //return new array
+    //returns new array
   };
 
 
