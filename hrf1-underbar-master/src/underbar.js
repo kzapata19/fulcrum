@@ -371,22 +371,27 @@
   // TIP: This function's test suite will ask that you not modify the original
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
+  
   _.shuffle = function(array) {
-   
     var length = array.length;
-    var randomized = new Array(length); //creates an array the length of the array passed
-    for(var i = 0, randomNum; i < length; i++) {
-      randomNum = random number from min (index 0) to max (array.length - 1);
-      if (randomNum !== i) {
-        //checks that randomNum doesn't equal to current index
-        randomized[randomNum] = array[i]; 
-        //adds the current item (array[i]) to new array (randomized) at random index (randomNum)
-      }
+    var shuffledCopy = array.slice(0, length);
+    // use slice to create a shallow copy of the array & length to capture the entire array
+    var x, random;
+    while(length) {
+      // start with length and decrease until 1 (exclude 0)
+      random = Math.floor(Math.random() * length--);
+      // generate random nums from 0 to length - 1; make sure to decrease length before swapping begins
+      x = shuffledCopy[length];
+      // note: current length has decreased 
+      //capture the value at current index ("length") position in shuffledCopy array;
+      shuffledCopy[length] = shuffledCopy[random];
+      // place the value of shuffledCopy[random] in the current shuffleCopy[length] position (part 1 of the swap)
+      shuffledCopy[random] = x;
+      // place x in the shuffledCopy[random] position (part 2 of the swap)
     }
-    return randomized; 
-    //returns new array
-  };
-
+    return shuffledCopy;
+    // returns shuffledCopy without altering the original array
+  };  
 
   /**
    * EXTRA CREDIT
