@@ -375,19 +375,19 @@
   _.shuffle = function(array) {
     var length = array.length;
     var shuffledCopy = array.slice(0, length);
-    // use slice to create a shallow copy of the array & length to capture the entire array
+    // uses slice to create a shallow copy of the array & "length" as end parameter to capture the entire array
     var x, random;
     while(length) {
-      // start with length and decrease until 1 (exclude 0)
+      // starts with length and decreases until 1 (excludes 0)
       random = Math.floor(Math.random() * length--);
-      // generate random nums from 0 to length - 1; make sure to decrease length before swapping begins
+      // generates random nums from 0 to length - 1; decreases length before swapping begins
       x = shuffledCopy[length];
       // note: current length has decreased 
-      //capture the value at current index ("length") position in shuffledCopy array;
+      //captures the value at current index ("length") position in shuffledCopy array;
       shuffledCopy[length] = shuffledCopy[random];
-      // place the value of shuffledCopy[random] in the current shuffleCopy[length] position (part 1 of the swap)
+      // places the value of shuffledCopy[random] in the current shuffleCopy[length] position (part 1 of the swap)
       shuffledCopy[random] = x;
-      // place x in the shuffledCopy[random] position (part 2 of the swap)
+      // places x in the shuffledCopy[random] position (part 2 of the swap)
     }
     return shuffledCopy;
     // returns shuffledCopy without altering the original array
