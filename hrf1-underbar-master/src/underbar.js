@@ -107,13 +107,13 @@
     var obj = {};
     var uniqKeys = [];
 
-    _.each(array, function(item, index) {
+    _.each(array, function(item) {
       obj[item] = item;
     });
     _.each(obj, function(key) {
       uniqKeys.push(obj[key]);
+      // note: if passed an array with numerical values that also have stringified-number equivalents (e.g. [1,2,"2",3,4,4]) will not yield BOTH the numerical AND strigified versions (e.g. 2 & "2")
     });
-
     return uniqKeys;
 
     /****Use _.each instead of loop version****/
