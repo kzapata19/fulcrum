@@ -38,22 +38,19 @@
   // Like first, but for the last elements. If n is undefined, return just the
   // last element.
   _.last = function(array, n) { // must be able to handle -nums, -0, 0
-      if (n == undefined) { // "==" accounts for undefined or null arguments
-        return array[array.length - 1];
-      } else if (n <= 0) { 
-          return [];
-      } else if (isNaN(n) === true) { // accounts for arguments that are NaNs
-          return array;
-      } else {
-        return array.slice(-n);
-      }
+      
+    var length = array.length
+    return n === undefined ? array[length - 1] : array.slice(Math.max(0, (length-n)));
+    // array.slice(-n) doesn't pass test because when n = 0, _.last should return [] not all array elements
   };
+
 
   // Call iterator(value, key, collection) for each element of collection.
   // Accepts both arrays and objects.
   //
   // Note: _.each does not have a return value, but rather simply runs the
   // iterator function over each item in the input collection.
+
   _.each = function(collection, iterator) {
     if (Array.isArray(collection)) {
       for (var i = 0; i < collection.length; i++) {
@@ -106,7 +103,7 @@
   _.uniq = function(array) {
     var obj = {};
     var uniqKeys = [];
-
+    // probably not necessary to use _.each since this method's input is an array not obj
     _.each(array, function(item) {
       obj[item] = item;
     });
@@ -116,12 +113,12 @@
     });
     return uniqKeys;
 
-    /****Use _.each instead of loop version****/
+    /****Use _.each instead of loop version?****/
     // for (var i = 0; i < array.length; i++) {
     //   obj[array[i]] = array[i];
     // }
     // for (var key in obj) {
-    //   uniqKeys.push(key);
+    //   uniqKeys.push(obj[key]);
     // }
 
     /****Not the most efficient version****/
@@ -228,23 +225,20 @@
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
+    iterator = iterator || _.identity; // iterator is optional; this check can occur outside _.reduce
     return _.reduce(collection, function(accumulator, item) {
-      if (iterator == undefined) { 
-        return iterator = iterator || _.identity
-      } else {
-        return accumulator && !!iterator(item);
-      }
-    }, true);
+        return accumulator && !!iterator(item); // use && because every result should yield true
+    }, true); // set initial val/accum to true to compare each result of iterator(item)
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+    iterator = iterator || _.identity;
     return _.reduce(collection, function(accumulator, item) {
-        iterator = iterator || _.identity
-        return accumulator || !!iterator(item);
-      }, false);
+        return accumulator || !!iterator(item); // use || because one true result is sufficient
+      }, false); // set initial/accum to false 
   };
 
 
