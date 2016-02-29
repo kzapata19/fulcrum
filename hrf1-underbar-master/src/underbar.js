@@ -398,6 +398,10 @@
   // Calls the method named by functionOrKey on each value in the list.
   // Note: You will need to learn a bit about .apply to complete this.
   _.invoke = function(collection, functionOrKey, args) {
+    var argList = slice.apply(arguments, 2);
+    return _.map(collection, function(value){
+      return functionOrKey.apply(value, argList);
+    });
   };
 
   // Sort the object's values by a criterion produced by an iterator.
