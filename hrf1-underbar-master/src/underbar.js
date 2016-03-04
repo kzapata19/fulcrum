@@ -397,19 +397,28 @@
 
   // Calls the method named by functionOrKey on each value in the list.
   // Note: You will need to learn a bit about .apply to complete this.
-  _.invoke = function(collection, functionOrKey, args) {
-    var argList = slice.apply(arguments, 2);
-    return _.map(collection, function(value){
-      return functionOrKey.apply(value, argList);
-    });
+
+  _.invoke = function(list, methodName, args) {
+    var argArray = Array.prototype.slice.call(arguments, 2);
+    var isFunction = typeof(methodName) === "function";
+                    //_.isFunction(methodName);
+      return _.map(list, function(item) {
+        var setMethod = isFunction ? methodName: item[methodName];
+        return  setMethod.apply(item, argArray); 
+      });
   };
 
   // Sort the object's values by a criterion produced by an iterator.
   // If iterator is a string, sort objects by that property with the name
   // of that string. For example, _.sortBy(people, 'name') should sort
   // an array of people by their name.
-  _.sortBy = function(collection, iterator) {
-  };
+    _.sortBy = function(collection, iterator){
+      if(typeof(iterator) === "string" || typeof(iterator) === "object") {
+        return collection.sort(function(a,b){return a[iterator]-b[iterator]});
+      } else {
+        return collection.sort(function(a,b){return iterator(a)-iterator(b)});
+      }
+    };
 
   // Zip together two or more arrays with elements of the same index
   // going together.
