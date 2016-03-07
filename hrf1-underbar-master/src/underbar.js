@@ -426,13 +426,36 @@
   // Example:
   // _.zip(['a','b','c','d'], [1,2,3]) returns [['a',1], ['b',2], ['c',3], ['d',undefined]]
   _.zip = function() {
+      var outputArray = [];
+      var arrayList = Array.prototype.slice.call(arguments);
+      var outputArrayLength = _.reduce(arrayList,function(a,b){
+        return Math.max(a,b.length);
+      },0);
+      var counter = 0;
+      while(counter < outputArrayLength){
+        outputArray.push([]);
+      for(var i = 0; i < arrayList.length; i++){
+        outputArray[counter].push(arrayList[i][counter]);
+      }
+      counter++;
+      }
+      return outputArray;
   };
 
   // Takes a multidimensional array and converts it to a one-dimensional array.
   // The new array should contain all elements of the multidimensional array.
   //
   // Hint: Use Array.isArray to check if something is an array
-  _.flatten = function(nestedArray, result) {
+  _.flatten = function(nestedArray, shallow){
+    var results = [];
+    for(var i = 0; i < nestedArray.length; i++) {
+      if(Array.isArray(nestedArray[i])){
+        return results.concat(nestedArray[i]);
+      } else {
+       results.push(nestedArray[i]);
+      }
+    }
+    return results;
   };
 
   // Takes an arbitrary number of arrays and produces an array that contains
@@ -443,6 +466,7 @@
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
   _.difference = function(array) {
+
   };
 
   // Returns a function, that, when invoked, will only be triggered at most once
