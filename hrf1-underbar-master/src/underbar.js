@@ -80,6 +80,14 @@
     return result;
   };
 
+  alternative using reduce -
+
+  _.indexOf = functiom(array, target) {
+    return _.reduce(array, function(accum, currentVal, index){
+      if (currentVal === target) { return index;}
+    }, target);
+  }
+
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, test) {
     var result = [];
@@ -181,11 +189,11 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) { 
-    var x = arguments.length === 2
+    var noAccumulator = arguments.length === 2
     _.each(collection, function(item) {
-      if (x) {
+      if (noAccumulator) {
         accumulator = item;
-        x = false;  
+        noAccumulator = false;  
       } else {
         accumulator = iterator(accumulator, item);
       }
@@ -193,11 +201,11 @@
     });
 
     /*** Using for loop:
-      var x = arguments.length === 2;  
+      var noAccumulator = arguments.length === 2;  
         for (var i = 0; i < collection.length; i++) {
-          if(x) {
+          if(noAccumulator) {
             accumulator = collection[i];
-            x = false;
+            noAccumulator = false;
           } else {
             accumulator = iterator(accumulator, collection[i]);
           }
@@ -446,21 +454,32 @@
   // The new array should contain all elements of the multidimensional array.
   //
   // Hint: Use Array.isArray to check if something is an array
-  _.flatten = function(nestedArray, shallow){
+  _.flatten = function(nestedArray, shallow) {
     var results = [];
-    for(var i = 0; i < nestedArray.length; i++) {
-      if(Array.isArray(nestedArray[i])){
-        return results.concat(nestedArray[i]);
-      } else {
-       results.push(nestedArray[i]);
+    function recursion(nestedArray){
+      _.each(nestedArray, function(item) {     
+        if(!Array.isArray(item)){ results.push(item)}
+        else { recursion(item)}
+      });
+    }  
+    if(shallow === true) {
+      for(var i = 0; i < nestedArray.length; i++) { // recreate this part with _.each
+        if(Array.isArray(nestedArray[i])){ 
+          return results.concat(nestedArray[i]);} 
+        else {results.push(nestedArray[i]);}
       }
     }
+    else { recursion(nestedArray);}
     return results;
   };
 
   // Takes an arbitrary number of arrays and produces an array that contains
   // every item shared between all the passed-in arrays.
   _.intersection = function() {
+    var args = Array.prototype.slice.call(arguments, 0);
+    
+    
+
   };
 
   // Take the difference between one array and a number of other arrays.
