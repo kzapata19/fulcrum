@@ -80,13 +80,13 @@
     return result;
   };
 
-  alternative using reduce -
+  //alternative using reduce 
 
-  _.indexOf = functiom(array, target) {
-    return _.reduce(array, function(accum, currentVal, index){
-      if (currentVal === target) { return index;}
-    }, target);
-  }
+  // _.indexOf = function(array, target) {
+  //   return _.reduce(array, function(accum, currentVal, index){
+  //     if (currentVal === target) { return index;}
+  //   });
+  // }
 
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, test) {
@@ -99,6 +99,15 @@
     return result;
   };
 
+// alternative using reduce
+
+//   _.filter = function(collection, test){
+//     return _.reduce(collection, function(accum, current){
+//       if(test(current)) { accum.push(current);}
+//       return accum;
+//     },[]);
+// }
+
   // Return all elements of an array that don't pass a truth test.
   _.reject = function(collection, test) {
     // TIP: see if you can re-use _.filter() here, without simply
@@ -107,6 +116,17 @@
       return !test(value);
     });
   };
+
+// alternative using reduce
+
+// _.reject = function(collection, test){
+//     return _.reduce(collection, function(accum, current){
+//       if(!test(current)) { accum.push(current);}
+//       return accum;
+//     }, []);
+// };
+
+
  // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
     var obj = {};
@@ -137,6 +157,15 @@
     // }
   };
 
+// alternative using reduce
+
+// _.unique = function(array){
+//   return _.reduce(array, function(accum, current, index){
+//     if(current !== array[index+1]) { accum.push(current);}
+//     return accum;
+//   }, []);
+// }
+
 
   // Return the results of applying an iterator to each element.
   _.map = function(collection, iterator) {
@@ -149,6 +178,15 @@
     });
     return results;
   };
+
+// alternative using reduce
+
+// _.map = function(collection, iterator){
+//   return _.reduce(collection, function(accum, current){
+//     accum.push(iterator(current));
+//     return accum;
+//   }, []);
+// };
 
   /*
    * TIP: map is really handy when you want to transform an array of
@@ -167,6 +205,17 @@
       return item[key];
     });
   };
+
+  // alternative using _.reduce
+
+  // _.pluck = function(collection, key) {
+  //   return _.reduce(collection, function(accum, current, index){
+  //     if(index === key) { accum.push(current);}
+  //     return accum;
+  //   }, []);
+  // }
+
+
 
   // Reduces an array or object to a single value by repetitively calling
   // iterator(accumulator, item) for each item. accumulator should be
@@ -188,6 +237,7 @@
   //     return total + number * number;
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
+
   _.reduce = function(collection, iterator, accumulator) { 
     var noAccumulator = arguments.length === 2
     _.each(collection, function(item) {
@@ -200,6 +250,9 @@
       
     });
 
+    return accumulator;
+  };
+
     /*** Using for loop:
       var noAccumulator = arguments.length === 2;  
         for (var i = 0; i < collection.length; i++) {
@@ -211,9 +264,6 @@
           }
         }
     ***/
-
-    return accumulator;
-  };
 
   // Determine if the array or object contains a given value (using `===`).
   _.contains = function(collection, target) {
@@ -279,6 +329,19 @@
     return obj;
   };
 
+// alternative using reduce
+
+//   _.extend = function(obj){
+//     var args = [].slice.call(arguments, 1);
+
+//     returh _.reduce(args, function(obj, current){
+//       _.each(current, function(elem, key){
+//         if(_.isObject(current)) { obj[key] = elem;}
+//       });
+//       return obj;
+//     }, obj);
+//   };
+
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
@@ -289,10 +352,20 @@
         }
       });
     });
-    
-    return obj
+    return obj;
   };
 
+// alternative using reduce
+
+// _.defaults = function(obj){
+//   var args = [].slice.call(arguments, 1);
+//   return _.reduce(args, function(obj, currentArg){
+//     _.each(currentArg, function(value, key){
+//       if(_.isObject(currentArg) && obj[key] === undefined) { obj[key] = value;}
+//     });
+//     return obj
+//   }, obj)
+// };
 
   /**
    * FUNCTIONS
