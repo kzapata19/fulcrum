@@ -128,26 +128,38 @@
 
 
  // Produce a duplicate-free version of the array.
-  _.uniq = function(array) {
-    var obj = {};
-    var uniqKeys = [];
-    // probably not necessary to use _.each since this method's input is an array not obj
-    _.each(array, function(item) {
-      obj[item] = item;
-    });
-    _.each(obj, function(key) {
-      uniqKeys.push(obj[key]);
-      // note: if passed an array with numerical values that also have stringified-number equivalents (e.g. [1,2,"2",3,4,4]) will not yield BOTH the numerical AND strigified versions (e.g. 2 & "2")
-    });
-    return uniqKeys;
+  _.uniq = function(array, isSorted, iterator) {
+    if (typeof isSorted != "boolean") { // if 2nd param != boolean, set param equal to CB
+      iterator = isSorted;
+      isSorted = false;
+    }
+    
+    var results = []; // will be returned with uniq array elems
+    var checked = []; // if isSorted = true then typeof var "number" else "array"
 
-    /****Use _.each instead of loop version?****/
-    // for (var i = 0; i < array.length; i++) {
-    //   obj[array[i]] = array[i];
-    // }
-    // for (var key in obj) {
-    //   uniqKeys.push(obj[key]);
-    // }
+    _.each(array, function(item, index, array){ 
+      var computed = iterator ? iterator(item, index, array) : item;
+
+      if(isSorted) {
+        if(!index || checked !== computed) { results.push(item);}
+        checked = computed;
+      } 
+
+      else if (iterator) { 
+      // isSorted = false;
+      // gathers unique items in results [] based on transformation [computed = iterator(item, index, array)] 
+          if(!_.contains(checked, computed)){ 
+            checked.push(computed); 
+            results.push(item);}
+      } 
+
+      else if(!_.contains(results, item)){ results.push(item);}
+          // if no iterator is provided 
+    });
+    
+    return results;
+
+  };
 
     /****Not the most efficient version****/
     // for (var i = 0; i < array.length; i++) {
@@ -155,11 +167,11 @@
     //     uniqKeys.push(array[i]);
     //   }
     // }
-  };
 
-// alternative using reduce
+// alternative using reduce (does not have boolean or iterator params)
 
-// _.unique = function(array){
+// _.uniq = function(array){
+
 //   return _.reduce(array, function(accum, current, index){
 //     if(current !== array[index+1]) { accum.push(current);}
 //     return accum;
@@ -209,8 +221,8 @@
   // alternative using _.reduce
 
   // _.pluck = function(collection, key) {
-  //   return _.reduce(collection, function(accum, current, index){
-  //     if(index === key) { accum.push(current);}
+  //   return _.reduce(collection, function(accum, currentVal, index, collection){
+  //     accum.push(currentVal[key]);
   //     return accum;
   //   }, []);
   // }
