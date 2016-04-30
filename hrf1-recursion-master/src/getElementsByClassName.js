@@ -4,6 +4,24 @@
 // };
 
 // But instead we're going to implement it from scratch:
+
+// You should use document.body, element.childNodes, element.classList
+
 var getElementsByClassName = function(className){
-  // your code here
+	var results = [];
+
+	var searchNodes = function(node){
+		var nodeParts = 
+		if(nodeParts.indexOf(className) >= 0) {
+			results.push(node);
+		}
+		for (var i = 0; i < node.children.length; i++) {
+			searchNodes(node.children[i])
+		};
+	}
+	searchNodes(document.body);
+	return results;
 };
+
+
+
