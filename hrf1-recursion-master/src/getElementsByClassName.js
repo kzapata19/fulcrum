@@ -11,7 +11,7 @@ var getElementsByClassName = function(className){
 	var results = [];
 
 	var searchNodes = function(node){
-		var nodeParts = 
+		var nodeParts = node.className.split(" "); 
 		if(nodeParts.indexOf(className) >= 0) {
 			results.push(node);
 		}
