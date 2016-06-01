@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="jquery.js"></script>
+    <script src="data_generator.js"></script>
+
+		<script src="moment.js"></script>
+		<link rel="stylesheet"  href= "designTwittler.css"> 
+		<h1>My Twittler</h1 > 
+
+  </head>
+
+  <body>
+		<div class="update">Load 0 new Tweets</div> 
+    <script>
+      $(document).ready(function(){
+        var $body = $('body');
+		
+				var numberPosted = 0 
+		
+		var makeTweet = function(index){ 
+			var tweet = streams.home[index];
+			var $tweet = $('<div class="new tweet"></div>');
+			var date = tweet.created_at;
+			var timestamp = moment(date).fromNow();
+			$tweet.append('<h3><span class="name">' + '@' + tweet.user + ' </span><font size=2.5px>' + timestamp + '</font></h3>');
+			$tweet.addClass(tweet.user);
+			$tweet.append('<p id="message">' + tweet.message + '</p>');
+			$('.update').after($tweet);
+		}
+		
+		var updateTweets = function(){
+			var oldestTweet = 0;
+			while(oldestTweet < numberPosted){
+				var date = streams.home[oldestTweet].created_at;
+				$('body :nth-last-child(' + oldestTweet+2 + ') font').text(moment(date).fromNow());
+				oldestTweet ++;
+			}
+			
+			$('.tweet').removeClass('new');
+			while(numberPosted < streams.home.length){
+				makeTweet(numberPosted);
+				numberPosted ++;
+			}
+			
+			$('.name').delegate('','click',function(){
+				var name = $(this).text().slice(1);
+				$('.tweet:not(.'+name+')').hide();
+			});
+		}
+		
+		$('.update').on('click',function(){
+			$('.tweet').show();
+			updateTweets();
+			$('.update').text('0 new Tweets');
+			$('title').text('Twittler');
+		});
+		
+		updateTweets();		
+		setInterval(function(){
+			var totalTweets = streams.home.length - numberPosted;
+			$('.update').text( totalTweets + " new Tweets");
+			$('title').text("(" + totalTweets + ") Twittler")
+		}, 5000);
+		
+		
+      });
+    </script>
+  </body>
+</html>

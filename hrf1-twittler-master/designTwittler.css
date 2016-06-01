@@ -1,0 +1,33 @@
+div {
+	background-color: rgb(96, 175, 248);
+	margin: 10px;
+	box-shadow: 2px 3px 3px #888888;
+	width: 1000px;
+	padding: 15px;
+	border-radius: 8px;
+	font-family: open-sans;
+}
+
+.update {
+	background-color: rgb(0, 153, 255);
+	text-align: center;
+	margin: 20px 150px 25px 150px;
+	width: 200px;
+}
+
+.update:hover{
+	background-color:rgb(204, 255, 255);
+	cursor: pointer;
+}
+
+.tweet{
+	padding: 5px 25px 5px 25px;
+}
+
+.new{
+	background-color: rgb(153, 221, 255);
+}
+
+.name{
+	cursor:pointer;
+}
